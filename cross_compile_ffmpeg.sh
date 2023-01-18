@@ -805,10 +805,11 @@ build_iconv() {
 }
 
 build_sdl2() {
-  download_and_unpack_file https://github.com/libsdl-org/SDL/releases/download/release-2.26.2/SDL2-2.26.2.tar.gz
+  download_and_unpack_file https://www.libsdl.org/release/SDL2-2.0.12.tar.gz
+  ###https://github.com/libsdl-org/SDL/releases/download/release-2.26.2/SDL2-2.26.2.tar.gz
   ####https://www.libsdl.org/release/SDL2-2.0.12.tar.gz
-  cd SDL2-2.26.2 ##SDL2-2.0.12
-    apply_patch file://$patch_dir/SDL2-2.26.2_lib-only.diff
+  cd SDL2-2.0.12 ##SDL2-2.26.2
+    apply_patch file://$patch_dir/SDL2-2.0.12_lib-only.diff
     if [[ ! -f configure.bak ]]; then
       sed -i.bak "s/ -mwindows//" configure # Allow ffmpeg to output anything to console.
     fi
