@@ -743,7 +743,8 @@ gen_ld_script() {
 }
 
 build_dlfcn() {
-  do_git_checkout https://github.com/dlfcn-win32/dlfcn-win32.git
+  do_git_checkout https://github.com/Stevejobsa/dlfcn-win32.git
+  ####https://github.com/dlfcn-win32/dlfcn-win32.git
   cd dlfcn-win32_git
     if [[ ! -f Makefile.bak ]]; then # Change CFLAGS.
       sed -i.bak "s/-O3/-O2/" Makefile
@@ -804,9 +805,10 @@ build_iconv() {
 }
 
 build_sdl2() {
-  download_and_unpack_file https://www.libsdl.org/release/SDL2-2.0.12.tar.gz
-  cd SDL2-2.0.12
-    apply_patch file://$patch_dir/SDL2-2.0.12_lib-only.diff
+  download_and_unpack_file https://github.com/libsdl-org/SDL/releases/download/release-2.26.2/SDL2-2.26.2.tar.gz
+  ####https://www.libsdl.org/release/SDL2-2.0.12.tar.gz
+  cd SDL2-2.26.2 ##SDL2-2.0.12
+    apply_patch file://$patch_dir/SDL2-2.26.2_lib-only.diff
     if [[ ! -f configure.bak ]]; then
       sed -i.bak "s/ -mwindows//" configure # Allow ffmpeg to output anything to console.
     fi
@@ -1737,7 +1739,8 @@ build_libxavs2() {
 }
 
 build_libdavs2() {
-  do_git_checkout https://github.com/pkuvcl/davs2.git
+  do_git_checkout https://github.com/Stevejobsa/davs2.git
+  ###https://github.com/pkuvcl/davs2.git
   cd davs2_git/build/linux
   if [[ $host_target == 'i686-w64-mingw32' ]]; then
     do_configure "--cross-prefix=$cross_prefix --host=$host_target --prefix=$mingw_w64_x86_64_prefix --enable-pic --disable-asm"
@@ -2220,7 +2223,8 @@ build_mplayer() {
 
   download_and_unpack_file https://sourceforge.net/projects/mplayer-edl/files/mplayer-export-snapshot.2014-05-19.tar.bz2 mplayer-export-2014-05-19
   cd mplayer-export-2014-05-19
-    do_git_checkout https://github.com/FFmpeg/FFmpeg ffmpeg d43c303038e9bd # known compatible commit
+    do_git_checkout https://github.com/Stevejobsa/FFmpeg
+    #### https://github.com/FFmpeg/FFmpeg ffmpeg d43c303038e9bd # known compatible commit
     export LDFLAGS='-lpthread -ldvdnav -ldvdread -ldvdcss' # not compat with newer dvdread possibly? huh wuh?
     export CFLAGS=-DHAVE_DVDCSS_DVDCSS_H
     do_configure "--enable-cross-compile --host-cc=cc --cc=${cross_prefix}gcc --windres=${cross_prefix}windres --ranlib=${cross_prefix}ranlib --ar=${cross_prefix}ar --as=${cross_prefix}as --nm=${cross_prefix}nm --enable-runtime-cpudetection --extra-cflags=$CFLAGS --with-dvdnav-config=$mingw_w64_x86_64_prefix/bin/dvdnav-config --disable-dvdread-internal --disable-libdvdcss-internal --disable-w32threads --enable-pthreads --extra-libs=-lpthread --enable-debug --enable-ass-internal --enable-dvdread --enable-dvdnav --disable-libvpx-lavc" # haven't reported the ldvdcss thing, think it's to do with possibly it not using dvdread.pc [?] XXX check with trunk
